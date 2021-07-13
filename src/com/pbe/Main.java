@@ -34,6 +34,28 @@ package com.pbe;
 // This is accomplished through the use of an extends clause when specifying the type parameter: <T extends superclass>
 // See Stats example
 
+// Using wildcard arguments
+// Sometimes, type safety gets in the way of perfectly acceptable constructs.
+// For example in the Stats model, when you would like to add an method that determines if two Stat objects contain arrays that yield the same average, no matter their type of numeric data.
+// However, because Stats is a parameterized type, what to be specified for Stats' type parameter when declaring a parameter of that type?
+// Comparing the averages of 2 Stat objects will require both Stats objects type to be equal. For example, both should be of type Integer or Double.
+// To create a generic average value comparison method, requires the use of the Java generics feature: the 'wildcard argument'.
+// The wildcard argument is specified by ? and it represents an unknown type.
+// See Stats2 example
+
+// Bounded wildcards
+// Wildcard arguments can be bounded in a similar fashion as a type parameter can be bounded.
+// Bounded wildcards are especially important when creating a generic type that operates on a class hierarchy.
+// See BoundedWildCard class example
+// This example consists of a two-dimensional (TwoD), three-dimensional (ThreeD) and four-dimensional (FourD) class, that respectively store xy, xyz, and xyzt coordinates.
+// With the four-d class extending from three-d and the three-d class extending from two-d. I.e. it's an hierarchy of classes.
+// A separate class, Coords, is used to hold an array of coordinate objects, which can be objects of any of the just mentioned classes.
+// When adding a method that displays X, Y and Z coordinates for each element in the coordinates array, this will be a problem with TwoD being the top class, having only X Y coordinates.
+// To write a method that displays X, Y and Z coordinates for the ThreeD and FourD class, while preventing that method from being used with TwoD objects,
+// a "bounded wildcard argument" can be used.
+// This enables to restrict the type of objects upon which a method will operate.
+// The most common bounded wildcard is the upper bound, which is created using and extend clause, in much the same way it's used to create a bounded type.
+
 public class Main {
 
     public static void main(String[] args) {
@@ -70,7 +92,7 @@ public class Main {
         Gen<String> strOb;
 
         // Create a Gen object as String, and assign its reference to strOb (using autoboxing)
-        strOb = new Gen<String> ("Generics test");
+        strOb = new Gen<String>("Generics test");
         // alternative on one line: Gen<String> strOb = new Gen<String> ("Generics test");
 
         // Show the type of data used by strOb
@@ -118,7 +140,7 @@ public class Main {
         // But intOb2 now refers to a String, not an Integer.
         // Without the use of generics, the compiler has no way of knowing this, resulting in a run-time exception.
         // With generics, in essence, run-time errors are converted into compile-time errors.
-     // v2 = (Integer) intOb2.getob();
+        // v2 = (Integer) intOb2.getob();
         System.out.println();
 
         // **********************
@@ -146,21 +168,55 @@ public class Main {
         // Generics example with bounded types: using Stats class
         // **********************
         System.out.println("Generics using bounded types");
-        Integer inums[] = { 1, 2, 3, 4, 5 };
+        Integer inums[] = {1, 2, 3, 4, 5};
         Stats<Integer> intOb1 = new Stats<Integer>(inums);
         double avg = intOb1.average();
-        System.out.println("average value of avg is: " + avg);
+        System.out.println("average value of intOb1 is: " + avg);
 
-        Double dnums[] = { 1.11, 2.21, 3.32, 4.43 };
+        Double dnums[] = {1.11, 2.21, 3.32, 4.43};
         Stats<Double> dOb = new Stats<Double>(dnums);
         double d = dOb.average();
-        System.out.println("average value of d is: " + d);
+        System.out.println("average value of dOb is: " + d + "\n");
 
         // The following wont compile as String is not a subclass of Number
 //        String strs[] = { "1", "2", "3.1", "4.2" };
 //        Stats<String> strings = new Stats<String>(strs);
 //        double d2 = strings.average();
-//        System.out.println("average value of d2 is: " + d2);
+//        System.out.println("average value of strings is: " + d2);
+
+        // **********************
+        // Generics example using a wildcard: using Stats2 class
+        // **********************
+        System.out.println("Generics using a wildcard");
+        Integer intnums[] = { 1, 2, 3, 4, 5 };
+        Stats2<Integer> integersOb = new Stats2<Integer>(intnums);
+        double intavg = integersOb.average();
+        System.out.println("average value of integersOb is: " + intavg);
+
+        Double dblnums[] = { 1.11, 2.21, 3.32, 4.43 };
+        Stats2<Double> doublesOB = new Stats2<Double>(dblnums);
+        double dblavg = doublesOB.average();
+        System.out.println("average value of dOb2 is: " + dblavg);
+
+        Float fltnums[] = { 1.0F, 2.0F, 3.0F, 4.0F };
+        Stats2<Float> floatsOb = new Stats2<Float>(fltnums);
+        double fltavg = floatsOb.average();
+        System.out.println("average value of floatsOb is: " + fltavg);
+
+        // See which arrays have the same average
+        System.out.println("Averages of integersOb & floatsOb: ");
+        if (integersOb.sameAvg(floatsOb))
+            System.out.println("are the same.");
+        else
+            System.out.println("differ.");
+        System.out.println();
+
+        // **********************
+        // Generics example using bounded wildcard arguments
+        // See BoundWildCard class example, which involves classes TwoD, ThreeD, FourD and Coords
+        // **********************
+        System.out.println("Generics example using bounded wilcdcard arguments");
+        System.out.println("..." + "\n");
 
     }
 }
