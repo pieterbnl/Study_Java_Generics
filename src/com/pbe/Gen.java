@@ -1,6 +1,8 @@
 package com.pbe;
 
+// ********
 // Simple generic class example
+// ********
 // Because Gen uses a type parameter <T> it's a generic class, also referred to as a 'parameterized type'.
 class Gen<T> {
 
