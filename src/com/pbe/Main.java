@@ -54,7 +54,18 @@ package com.pbe;
 // To write a method that displays X, Y and Z coordinates for the ThreeD and FourD class, while preventing that method from being used with TwoD objects,
 // a "bounded wildcard argument" can be used.
 // This enables to restrict the type of objects upon which a method will operate.
-// The most common bounded wildcard is the upper bound, which is created using and extend clause, in much the same way it's used to create a bounded type.
+//
+// The most common bounded wildcard is the upper bound, which is created using and extend clause,
+// in much the same way it's used to create a bounded type. Form: <? extends superclass>
+// Where superclass is the name of the class that serves as upper bound and which is an inclusive clause (it will include both the specified class as well as it's subclasses).
+// It's also possible to specify a lower bound by using super: <? super subclass>
+// In this case, only classes that are superclasses of subclass are acceptable arguments. This is an inclusive clause as well.
+
+// Creating a generic method
+// Methods inside a generic class, can make use of a class' type parameter.
+// By doing so, these methods are automatically generic, relative to the type parameter.
+// It's possible to declare a generic method that uses one or more type parameters of its own.
+// It's possible to create a generic method that is enclosed within a non-generic class.
 
 public class Main {
 
@@ -216,6 +227,13 @@ public class Main {
         // See BoundWildCard class example, which involves classes TwoD, ThreeD, FourD and Coords
         // **********************
         System.out.println("Generics example using bounded wilcdcard arguments");
+        System.out.println("..." + "\n");
+
+        // **********************
+        // Generic method example
+        // See GenericMethod class
+        // **********************
+        System.out.println("Generics method example");
         System.out.println("..." + "\n");
 
     }
