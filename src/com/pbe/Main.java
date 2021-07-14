@@ -61,11 +61,18 @@ package com.pbe;
 // It's also possible to specify a lower bound by using super: <? super subclass>
 // In this case, only classes that are superclasses of subclass are acceptable arguments. This is an inclusive clause as well.
 
-// Creating a generic method
+// Generic method
 // Methods inside a generic class, can make use of a class' type parameter.
 // By doing so, these methods are automatically generic, relative to the type parameter.
 // It's possible to declare a generic method that uses one or more type parameters of its own.
 // It's possible to create a generic method that is enclosed within a non-generic class.
+
+// Generic constructor
+// A generic constructor is a constructor that has at least one parameter of a generic type.
+// Generic constructors are the same as generic methods. For generic constructors after the public keyword and before the class name the type parameter must be placed.
+// Constructors can be generic, even its class is not generic.
+// See GenericConstructor example
+
 
 public class Main {
 
@@ -236,5 +243,14 @@ public class Main {
         System.out.println("Generics method example");
         System.out.println("..." + "\n");
 
+        // **********************
+        // Generic constructor example
+        // **********************
+        System.out.println("Generic constructor");
+        GenericConstructor genconOb1 = new GenericConstructor(50);
+        GenericConstructor genconOb2 = new GenericConstructor(101.5F);
+        genconOb1.showval();
+        genconOb2.showval();
+        System.out.println();
     }
 }
