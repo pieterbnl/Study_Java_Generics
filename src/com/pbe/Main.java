@@ -102,6 +102,21 @@ package com.pbe;
 // Raw types should only be used in those cases where legacy code is mixed with newer, generic code.
 // Raw types are a transitional feature. Not something to be used for new code.
 
+// Generic class hierarchies
+// Generic classes can be part of a class hierarchy, like a non generic-class, and act as a superclass or be a subclass.
+// However, key difference between generic and non generic hierarchies:
+// In a generic hierarchy, any type arguments needed by a generic superclass must be passed up the hierarchy by all subclasses.
+// Similar to how constructor arguments must be passed up a hierarchy.
+// See GenHierarchy example
+//
+// Note: A non-generic class can be the superclass of a generic subclass
+//
+// Run-time type comparisons within a generic hierarchy
+// Operator 'instanceof' determines if an object is an instance of a class.
+// It returns true if an object is of the specified type or can be cast to the specified type.
+// It can be applied to objects of generic classes.
+// See example involving Gen and Gen2
+
 public class Main {
 
     public static void main(String[] args) {
@@ -326,6 +341,67 @@ public class Main {
     //  String strvalue = rawgen_strOb.getob();
     //  rawgen = rawgen_iOb; // works, but is potentially wrong
     //  dbl = (Double) rawgen.getob();
+        System.out.println();
 
+        // **********************
+        // Generic class hierarchies
+        // **********************
+        // In this example, Gen2 is a subclass of Gen, which is generic on type Parameter T
+        // Three objects are created on which several instanceof tests are performed
+        // The use of wildcards enables instanceof to determine if the given object is of the tested type.
+
+        System.out.println("Example of generic class hierarchy");
+
+        // Create a GenHierarchy2 object for String and Integer
+        GenHierarchy2<String, Integer> x =
+                new GenHierarchy2<String, Integer>("It's value is: ", 01);
+        System.out.print(x.getob());
+
+        System.out.println(x.getOb2() + "\n");
+
+        // **********************
+        // Run-time type comparisons within a generic hierarchy
+        // **********************
+        System.out.println("Example of run-time type comparisons within a generic hierarchy");
+
+        // Create a Gen object for Integers
+        Gen<Integer> int_genOb = new Gen<Integer>(11);
+
+        // Create a Gen2 object for Integers
+        Gen2<Integer> int_genOb2 = new Gen2<Integer>(22);
+
+        // Create a Gen2 object for Strings
+        Gen2<String> str_genOb = new Gen2<String>("This is a string of text");
+
+        // See if int_genOb2 is some form of Gen2
+        if(int_genOb2 instanceof Gen2<?>)
+            System.out.println("int_genOb2 is an instance of Gen2");
+
+        // See if int_genOb2 is some form of Gen
+        if(int_genOb2 instanceof Gen<?>)
+            System.out.println("int_genOb2 is an instance of Gen \n");
+
+        // See if str_genOb is some form of Gen2
+        if(str_genOb instanceof Gen2<?>)
+            System.out.println("str_genOb is an instance of Gen2");
+
+        // See if str_genOb is a Gen
+        if(str_genOb instanceof Gen<?>)
+            System.out.println("str_genOb is an instance of Gen \n");
+
+        // see if int_genOb is an instance of Gen2 (which it's not)
+        // int_genOb is not some type of Gen2 object
+        if(int_genOb instanceof Gen2<?>)
+            System.out.println("int_genOb is an instance of Gen2");
+
+        // see if int_genOb is an instance of Gen (which it is)
+        if(int_genOb instanceof Gen<?>)
+            System.out.println("int_genOb is an instance of Gen");
+
+        // The following will cause a compile error,
+        // as generic type info (i.e. the specifying on Integer in this example) is not available at run time
+        // Therefore there is no way for instanceof to know if int_genOb2 is an instance of Gen2<Integer>
+    //  if(int_genOb2 instanceof Gen<Integer>)
+    //      System.out.println("int_genOb2 is an instance of Gen2<Integer>");
     }
 }
