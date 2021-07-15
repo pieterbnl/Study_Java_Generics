@@ -117,6 +117,75 @@ package com.pbe;
 // It can be applied to objects of generic classes.
 // See example involving Gen and Gen2
 
+// Casting
+// It's possible to cast one instance of a generic class into another.
+// But only if the two are compatible and their type arguments are the same.
+
+// Overriding methods in a generic class
+// a Method in a generic class can be overridden  like any other method.
+
+// Type inference with generics
+// As per JDK7 it's possible to shorten the syntax used to create an instance of a generic type.
+// Instead of specifying type arguments twice:
+//      MyClass<Integer, String> mcOb = new MyClass<Integer, String>(01, "some text");
+// The following, less verbose syntax, is also correct:
+//      MyClass<Integer, String> mcOb = new MyClass<>(01, "some text");
+// The 'diamond' operator <> tells the compiler to infer the type arguments by the constructor in the new expression.
+//
+// Type inference can also be applied to parameter passing. For example, with:
+//      boolean isSame(MyClass<T, V> o) {
+//          if(ob1 == o.ob1 && ob2 == o.ob2) return true;
+//          else return false
+//          }
+// The following call is legal: if (mcOb.isSame(new MyClass<>(1, "test")) System.out.println("Same");
+// Here, the type arguments for the argument passed to isSame() is inferred from the parameter's type.
+
+// Local variable type inference and generics
+// As per JDK10, it's also possible to use the new local variable type inference feature (var)
+// For example, this declaration:
+// MyClass<Integer, String> mcOb = new MyClass<Integer, String>(11, "some text");
+// Can also be rewritten like this, using local variable type reference:
+// var mcOb = new MyClass<Integer, String>(11, "some text");
+// Here, the type of mcOb is inferred to be MyClass<Integer,String> because that's the type of initializer.
+
+// Type Erasure
+// Generics were introduced to the Java language to provide tighter type checks at compile time and to support generic programming.
+// To implement generics, while maintaining compatible with preexisting, non generic code, type eraser is applied.
+// Type erasure ensures that no new classes are created for parameterized types.
+// Consequently, generics incur no runtime overhead.
+// The Java compiler applies type erasure to:
+// - Replace all type parameters in generic types with their bounds or Object if the type parameters are unbounded.
+//   The produced bytecode, therefore, contains only ordinary classes, interfaces, and methods.
+// - Insert type casts if necessary to preserve type safety.
+// - Generate bridge methods to preserve polymorphism in extended generic types.
+//
+// Sometimes type erasure causes a situation that may not have been anticipated.
+// For example when sometimes the compiler creates a synthetic method (which is called a bridge method),
+// as part of the type erasure process.
+// After type erasure, method signatures do not match.
+// For example a method "Node.setData(T)" becomes "Node.setData(Object)"
+// As a result, the MyNode.setData(Integer) method does not override the Node.setData(Object) method.
+// The compiler will generate a bridge method to ensure that subtyping works as expected.
+
+// Non-reifiable types / heap pollution
+// t.b.d
+
+// Generic restrictions
+// There are a few restrictions to keep in mind when using generics,
+// involving creation of objects of a type parameter, static members, exceptions and arrays.
+// - Type parameters can't be instantiated
+//   It's not possible to create an instance of a type parameter. The following is not possible: ob = new T()
+// - Restrictions on static members
+//   No static member can use a type parameter declared by the enclosing class.
+// - Generic Array restrictions
+//   Two important generic restrictions apply to arrays:
+//   1. You cannot instantiate an array whose element type is a type parameter. This won't work: vals = new T[10]
+//   2. You cannot create an array of type-specific generic references. This won't work: Gen<Integer> gens[] = new Gen<Integer>[10]
+//   It's not possible to create an array of T because there is no way for the compiler to know what type of array to create.
+//   You CAN create an array of references to a generic type with the use of a wildcard: Gen<?> gens[] = new Gen<?>[10]
+// - Generic exception restriction
+//   A generic class cannot extend Throwable, meaning that you can't create generic exception classes.
+
 public class Main {
 
     public static void main(String[] args) {
