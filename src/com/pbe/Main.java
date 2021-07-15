@@ -93,6 +93,15 @@ package com.pbe;
 // 1. It can be implemented for different types of data.
 // 2. It allows constraints (read: bounds) to be used on the types of data for which the interface can be implemented.
 
+// Raw types and legacy code
+// Generics did not exists prior to JDK5.
+// To handle the transition to generics, Java allows a generic class to be used without type arguments.
+// This creates a 'raw type' of the class, which is compatible with legacy code.
+// Main drawback is the loss of type safety of generics.
+// See RawGen example
+// Raw types should only be used in those cases where legacy code is mixed with newer, generic code.
+// Raw types are a transitional feature. Not something to be used for new code.
+
 public class Main {
 
     public static void main(String[] args) {
@@ -287,5 +296,36 @@ public class Main {
 
         System.out.println("Max val in charvalues: " + cOb.max());
         System.out.println("Min val in charvalues: " + cOb.min());
+        System.out.println();
+
+        // **********************
+        // Raw type example
+        // **********************
+        System.out.println("Raw type example");
+        // create a RawGen object for integers
+        RawGen<Integer> rawgen_iOb = new RawGen<Integer>(88);
+
+        // create a RawGen object for Strings
+        RawGen<String> rawgen_strOb = new RawGen<String>("Raw type test");
+
+        // create a raw-type RawGen object, and give it a double value
+        // Notice that no type arguments are specified
+        // This in essence results in the creation of a RawGen object whose type T is replaced by Object
+        RawGen rawgen = new RawGen(Double.valueOf(11.12));
+
+        double dbl = (Double) rawgen.getob(); // cast is required because type is unknown
+        System.out.println("value of dbl is: " + dbl);
+
+        // Examples of the use of raw type leading to run-time exceptions
+        // A raw type is not type safe.
+        // Meaning, a variable of a raw type can be assigned a reference to any type of RawGen object.
+        // Or reverse: a variable of a specific RawGen type can be assigned a reference to a raw RawGen object.
+        // Both operations are potentially unsafe because the type checking mechanism of generics is circumvented.
+    //  int i = (Integer) rawgen.getob(); // this cast will cause a ClassCastException
+    //  rawgen_strOb = rawgen.getob(); // this assignment overrides type safety; both are of different types, which cannot be detected at compile time because the rawgen type is unknown
+    //  String strvalue = rawgen_strOb.getob();
+    //  rawgen = rawgen_iOb; // works, but is potentially wrong
+    //  dbl = (Double) rawgen.getob();
+
     }
 }
