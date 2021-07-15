@@ -26,6 +26,17 @@ package com.pbe;
 // Note: When declaring an instance of a generic type, the type argument passed to the type parameter must be a reference type. It can't be a primitive type such as int or char.
 // This is not an issue, because type wrappers (in combination with autoboxing/unboxing) can be used to encapsulate a primitive type.
 
+// Java generic type naming convention
+// Generics comes with its own naming conventions.
+// Usually, type parameter names are single, uppercase letters to make it easily distinguishable from java variables.
+// The most commonly used type parameter names are:
+// - E: Element (used extensively by the Java Collections Framework, for example ArrayList, Set etc.)
+// - K: Key (Used in Map)
+// - N: Number
+// - T: Type
+// - V: Value (Used in Map)
+// - S,U,V etc.: 2nd, 3rd, 4th types
+
 // Bounded Types
 // Sometimes it's useful to limit the types that can be passed to a type parameter.
 // For example when creating a generic class for a calculation that's only to handle numbers, you want to tell the compiler and ensure, that only numeric types are passed.
@@ -73,6 +84,14 @@ package com.pbe;
 // Constructors can be generic, even its class is not generic.
 // See GenericConstructor example
 
+// Generic interface
+// Generic interfaces in Java are the interfaces that deal with abstract data types.
+// They are specified just like generic classes.
+// If a class implements a generic interface, then the class must also be generic.
+// At least to the extend that it takes a type parameter passed to the interface.
+// A generic interface offers two benefits:
+// 1. It can be implemented for different types of data.
+// 2. It allows constraints (read: bounds) to be used on the types of data for which the interface can be implemented.
 
 public class Main {
 
@@ -252,5 +271,21 @@ public class Main {
         genconOb1.showval();
         genconOb2.showval();
         System.out.println();
+
+        // **********************
+        // Generic interface example
+        // **********************
+        System.out.println("Generic interface");
+        Integer intvalues[] = { 2, 1, 9, 8, 3 };
+        Character charvalues[] = { 'p', 'b', 'w', 'h', 't' };
+
+        MyClass<Integer> iOb = new MyClass<>(intvalues);
+        MyClass<Character> cOb = new MyClass<>(charvalues);
+
+        System.out.println("Max val in intvalues: " + iOb.max());
+        System.out.println("Min val in intvalues: " + iOb.min());
+
+        System.out.println("Max val in charvalues: " + cOb.max());
+        System.out.println("Min val in charvalues: " + cOb.min());
     }
 }
