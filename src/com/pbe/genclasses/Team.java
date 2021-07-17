@@ -6,6 +6,7 @@ import java.util.ArrayList;
 // Using T to accept type arguments, extends to Member ("bounded type parameter") which sets Member as 'upper bound',
 // as such restricting this class to accept only objects of type Member
 // Implementing Comparable to be able to compare Teams
+// By using <Team<T>> in Comparable, only the type of teams that are appropriate can be compared
 public class Team<T extends Member> implements Comparable<Team<T>> {
 
     // Team specifics
@@ -81,17 +82,18 @@ public class Team<T extends Member> implements Comparable<Team<T>> {
         return (won * 2) + tied;
     }
 
+    // Compare team rankings
     @Override
     public int compareTo(Team<T> team) {
 
         // alternatively, single line: return Integer.compare(team.ranking(), this.ranking());
 
         if (this.ranking() > team.ranking()) {
-            return -1;
+            return -1; // if a team has a higher ranking than the team it's being compared with
         } else if(this.ranking() < team.ranking()) {
-            return 1;
+            return 1; // if a team has a lower ranking than the team it's being compared with
         } else {
-            return 0;
+            return 0; // equal ranking
         }
     }
 }

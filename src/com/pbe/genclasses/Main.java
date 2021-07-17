@@ -59,11 +59,36 @@ public class Main {
         System.out.println();
 
         // Display rankings
-        System.out.println("Rankings:");
-        System.out.println(ajax.getName() + ": " + ajax.ranking());
-        System.out.println(vitesse.getName() + ": " + vitesse.ranking());
+//        System.out.println("Rankings:");
+//        System.out.println(ajax.getName() + ": " + ajax.ranking());
+//        System.out.println(vitesse.getName() + ": " + vitesse.ranking());
+//        System.out.println();
 
-        //ArrayList<Team> teams;
-        //Collections.sort(teams);
+        // Compare rankings (note: compareTo function could be used for sorting when sorting via Collections.sort)
+//        System.out.println("Compare rankings:");
+//        System.out.println("Ajax vs Vitesse: " + ajax.compareTo(vitesse));
+//        System.out.println("Vitesse vs Ajax: " + vitesse.compareTo(ajax));
+//        System.out.println();
+
+        // Create league and show league results
+        League<Team<Soccer>> soccerLeague = new League<>("Eredivisie");
+        soccerLeague.add(ajax);
+        soccerLeague.add(vitesse);
+        soccerLeague.showLeagueTable();
+        System.out.println();
+
+        // Example of unchecked warnings and no warnings
+        System.out.println("Example of unchecked warnings and no warnings");
+        Team rawTeam = new Team("Raw Team"); // creating a team without specifying a type
+        rawTeam.addPlayer(dumoulin); // unchecked warning
+        rawTeam.addPlayer(kuss); // unchecked warning
+
+        League<Team> rawLeague = new League<>("Raw league");
+        rawLeague.add(ajax); // no warning
+        rawLeague.add(vitesse); // no warning
+
+        League reallyrawLeague = new League("Really raw league"); // creating a league without specifying a type
+        reallyrawLeague.add(ajax); // not using generics - unchecked warning
+        reallyrawLeague.add(vitesse); // not using generics - unchecked warning
     }
 }
